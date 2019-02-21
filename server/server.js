@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const app = express();
 const config = require('./config/config').get(process.env.NODE_ENV);
+const {auth} = require('./middleware/auth');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DATABASE,{ useNewUrlParser: true }).then( console.log(`Mongo Connected`)).catch(err => { throw err; });
@@ -14,6 +15,24 @@ app.use(cookieParser());
 
 const {User} = require('./models/user');
 const {Book} = require('./models/book');
+
+app.get('/api/auth', auth, (req,res) => {
+    res.send({
+        isAuth: true,
+        id:req.user._id,
+        email:req.user.email,
+        name:req.user.name,
+        lastname: req.user.lastname
+    })
+})
+
+app.get('/api/logout',auth,(req,res) => {
+    // res.send(req.user);
+    req.user.deleteToken(req.token, (err,user) => {
+        if(err) return res.status(400).send(err);
+        res.sendStatus(200);
+    });
+});
 
 //Books Routes
 app.get('/api/getBook', (req,res) => {
@@ -93,6 +112,31 @@ app.post('/api/login', (req,res) => {
             })
         })
     })
+});
+
+app.get('/api/getReviewer', (req,res) => {
+    let id = req.query.id;
+    User.findById(id, (err,doc) => {
+        if(err) return res.status(400).send(err);
+        res.json({
+            name: doc.name,
+            lastname: doc.lastname
+        })
+    });
+});
+
+app.get('/api/users', (req,res) => {
+    User.find({}, (err,users) => {
+        if(err) return res.status(400).send(err);
+        res.send(users);
+    });
+});
+
+app.get('/api/userPosts', (req,res) => {
+    Book.find({ownerId: req.query.user}).exec((err,books) => {
+        if(err) return res.status(400).send(err);
+        res.send(books);
+    });
 });
 
 const port = process.env.PORT || 3001;
