@@ -25,6 +25,25 @@ app.get('/api/auth', auth, (req,res) => {
         lastname: req.user.lastname
     })
 })
+app.post('/api/login', (req,res) => {
+    User.findOne({'email': req.body.email}, (err,user) => {
+        if(err) return res.json({success: false});
+        if(!user) return res.json({isAuth: false, message: 'Auth Failed {Email not Found}'});
+        console.log(user);
+        user.comparePassword(req.body.password,(err,isMatch)=>{
+            if(err) return res.json({success: false});
+            if(!isMatch) return res.json({isAuth: false, message: 'Auth Failed {Wrong Password}'});
+        });
+        user.generateToken((err,user) => {
+            if(err) return res.status(400).send(err);
+            res.cookie('auth',user.token).send({
+                isAuth: true,
+                id: user._id,
+                email: user.email
+            })
+        })
+    })
+});
 
 app.get('/api/logout',auth,(req,res) => {
     // res.send(req.user);
@@ -94,25 +113,7 @@ app.post('/api/register', (req,res) => {
     })
 });
 
-app.post('/api/login', (req,res) => {
-    User.findOne({'email': req.body.email}, (err,user) => {
-        if(err) return res.json({success: false});
-        if(!user) return res.json({isAuth: false, message: 'Auth Failed {Email not Found}'});
-        console.log(user);
-        user.comparePassword(req.body.password,(err,isMatch)=>{
-            if(err) return res.json({success: false});
-            if(!isMatch) return res.json({isAuth: false, message: 'Auth Failed {Wrong Password}'});
-        });
-        user.generateToken((err,user) => {
-            if(err) return res.status(400).send(err);
-            res.cookie('auth',user.token).send({
-                isAuth: true,
-                id: user._id,
-                email: user.email
-            })
-        })
-    })
-});
+
 
 app.get('/api/getReviewer', (req,res) => {
     let id = req.query.id;
