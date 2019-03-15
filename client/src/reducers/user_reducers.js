@@ -1,7 +1,9 @@
 export default function(state={}, action){
     switch(action.type){
-        case "ListUser": 
-            return {...state,users: action.payload}
+        case "USER_LOGIN": 
+            return {...state,login: action.payload}
+        case "AUTH_CHECK":
+            return {...state,login: action.payload}
         default:
             return state;
     }

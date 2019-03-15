@@ -21,7 +21,6 @@ class HomeContainer extends Component{
         this.props.dispatch(getBooks(1,count,'desc',this.props.books.list));
     }
     render(){
-         console.log(this.props.books.list);
         return(
             <div>
                 {this.renderItems(this.props.books)}

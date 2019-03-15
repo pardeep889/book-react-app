@@ -1,14 +1,24 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Home from './components/home/home';
+
 import Layout from './hoc/layout'
+import Auth from './hoc/auth';
+
+import Home from './components/home/home';
 import BookView from './components/book';
+import Login from './components/Admin/login';
+import User from './components/Admin/user';
+import AddReview from './components/Admin/addReview';
+
 const Routes = () =>{
     return(
         <Layout>
             <Switch>
-                <Route path="/" exact component={Home}/>
-                <Route path ="/books/:id" exact component = {BookView}/>
+                <Route path ="/" exact component={Auth(Home,null)}/>                
+                <Route path = "/login" exact component = {Auth(Login, false)}/>
+                <Route path ="/user" exact component = {Auth(User, true)}/>
+                <Route path = "/user/add" exact component = {Auth(AddReview, true)}/>
+                <Route path ="/books/:id" exact component = {Auth(BookView)}/>               
             </Switch>
         </Layout>        
     );
