@@ -2,9 +2,9 @@ import React from "react";
 
 import AddReviewContainer from '../../containers/Admin/addReview_container';
 
-const AddReview  = () => {
+const AddReview  = (props) => {
     return(
-        <AddReviewContainer/>
+        <AddReviewContainer {...props}/>
     )
 }
 
