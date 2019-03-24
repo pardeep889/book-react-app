@@ -16,3 +16,11 @@ export function auth(){
         payload: req
     }
 }
+
+export function getUserPosts(userId){
+    const req = axios.get(`/api/userPosts?user=${userId}`).then(resp => resp.data).catch(console.error());
+    return{
+        type: 'GET_USER_POSTS',
+        payload: req
+    }
+}

@@ -23,6 +23,13 @@ const SideNavItems = () => {
         {
             type: 'navItem',
             icon: 'file-text-o',
+            text: 'My Reviews',
+            link: '/user/user-reviews',
+            restricted: false
+        },
+        {
+            type: 'navItem',
+            icon: 'file-text-o',
             text: 'Add Admins',
             link: '/user/register',
             restricted: false
