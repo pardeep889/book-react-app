@@ -14,7 +14,7 @@ class UserPostContainer extends Component{
         user.posts ? 
             user.posts.map((item,i) => (
                 <tr key={i}>
-                    <td><Link to={`/books/${item._id}`}>{item.name} </Link></td>
+                    <td><Link to={`/user/edit-post/${item._id}`}>{item.name} </Link></td>
                     <td>{item.author}</td>
                     <td>{moment(item.createdAt).format("DD/MM/YYYY")}</td>
                 </tr>

@@ -60,3 +60,35 @@ export function clearNewBook(){
         payload: {}
     }
 }
+
+export function getBook(id){
+    const req = axios.get(`/api/getBook?id=${id}`).then(resp => resp.data).catch(console.error());
+    return {
+        type: "GET_BOOK",
+        payload: req
+    }
+}
+export function updateBook(data){
+    const req = axios.post(`/api/bookUpdate`,data).then(resp => resp.data).catch(console.error());
+    return{
+        type: 'UPDATE_BOOK',
+        payload: req
+    }
+}
+export function deleteBook(id){
+    const req = axios.delete(`/api/deleteBook?id=${id}`).then(resp => resp.data).catch(console.error());
+    return {
+        type: "DELETE_BOOK",
+        payload: req
+    }
+}
+export function clearBook(){
+    return {
+        type: "CLEAR_BOOK",
+        payload:{
+            book:null,
+            updateBook: false,
+            postDeleted: false
+        }
+    }   
+}

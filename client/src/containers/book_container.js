@@ -45,6 +45,7 @@ class BookContainer extends Component {
       
     
     render(){
+        console.log(this.props)
         let data = this.props.book;
         
         return(
