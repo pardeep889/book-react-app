@@ -24,3 +24,12 @@ export function getUserPosts(userId){
         payload: req
     }
 }
+
+export function getUsers(){
+    const req = axios.get('/api/users').then(resp => resp.data).catch(console.error());
+    return {
+        type: "GET_USERS",
+        payload: req
+    }
+    
+}
