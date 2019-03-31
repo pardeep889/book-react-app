@@ -13,6 +13,8 @@ export default function(state={}, action){
                     register: action.payload.success,
                     users: action.payload.users
                 }
+        case "USER_LOGOUT":
+            return {...state, logout: action.payload}
         default:
             return state;
     }

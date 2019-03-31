@@ -50,3 +50,10 @@ export function registerUser(data,userList){
         })
     }
 }
+export function logout(){
+    const req = axios.get('/api/logout').then(resp => resp.data).catch(console.error);
+    return {
+        type: 'USER_LOGOUT',
+        payload: req
+    }   
+}
